@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Listado{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h2>Listado</h2>
+        <p>Todos los registros.</p>
+    </div>
+    <a href="{{ url_for('nueva_entidad') }}" class="btn btn-dark">+ Nuevo</a>
+</div>
+
+{% if entidades %}
+<table class="table-bookhub">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th>Creador</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for e in entidades %}
+        <tr>
+            <td><a href="{{ url_for('detalle_entidad', id=e.id_entidad) }}">{{ e.nombre }}</a></td>
+            <td>{{ e.categoria_nombre }}</td>
+            <td>{{ e.creador_nombre }} {{ e.creador_apellido }}</td>
+            <td>{{ e.created_at.strftime('%Y-%m-%d') }}</td>
+            <td>
+                <a href="{{ url_for('detalle_entidad', id=e.id_entidad) }}" class="btn btn-sm btn-info">Ver</a>
+                {% if e.usuario_id == session['id_usuario'] %}
+                <a href="{{ url_for('editar_entidad', id=e.id_entidad) }}" class="btn btn-sm btn-warning">Editar</a>
+                <a href="{{ url_for('confirmar_eliminar_entidad', id=e.id_entidad) }}" class="btn btn-sm btn-danger">Borrar</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="card-bookhub text-center">
+    <p class="text-muted">No hay registros todavía.</p>
+    <a href="{{ url_for('nueva_entidad') }}" class="btn btn-dark">Crear el primero</a>
+</div>
+{% endif %}
+{% endblock %}

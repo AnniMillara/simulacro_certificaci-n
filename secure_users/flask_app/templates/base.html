@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}App{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container" style="padding: 24px 16px;">
+
+        {% if session.get('id_usuario') %}
+        <nav class="navbar-bookhub">
+            <a href="{{ url_for('dashboard') }}" class="brand">📖 App</a>
+            <div class="nav-links">
+                <a href="{{ url_for('dashboard') }}">Inicio</a>
+                <a href="{{ url_for('nueva_entidad') }}">+ Nuevo</a>
+                <a href="{{ url_for('lista_categorias') }}">Categorías</a>
+                <a href="{{ url_for('perfil', id=session['id_usuario']) }}">Mi Perfil</a>
+                <a href="{{ url_for('logout') }}">Cerrar Sesión</a>
+            </div>
+        </nav>
+        {% endif %}
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Mi Perfil{% endblock %}
+
+{% block content %}
+<div class="profile-header">
+    <div class="profile-avatar">{{ usuario.nombre[0]|upper }}</div>
+    <div class="profile-info">
+        <h2>{{ usuario.nombre }} {{ usuario.apellido }}</h2>
+        <p>{{ usuario.email }}</p>
+    </div>
+</div>
+
+<div class="page-header">
+    <div>
+        <h2>Mi cuenta</h2>
+        <p>Gestiona tu información personal.</p>
+    </div>
+    <a href="{{ url_for('dashboard') }}" class="btn btn-dark">Ir al inicio</a>
+</div>
+
+<div class="mt-5">
+    <a href="{{ url_for('confirmar_eliminar_usuario', id=usuario.id_usuario) }}" class="btn btn-danger">
+        Eliminar mi cuenta
+    </a>
+</div>
+{% endblock %}
