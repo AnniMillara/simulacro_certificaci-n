@@ -1,53 +1,27 @@
-DROP DATABASE IF EXISTS esquema;
-CREATE DATABASE esquema CHARACTER SET utf8mb4;
-USE esquema;
+DROP DATABASE IF EXISTS familia_peluche;
+CREATE DATABASE familia_peluche;
+USE familia_peluche;
 
--- ============================================================
--- TABLA 1: USUARIOS (idéntica en TODOS los escenarios)
--- ============================================================
-CREATE TABLE usuarios (
-    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(60) NOT NULL,
-    apellido VARCHAR(60) NOT NULL,
-    email VARCHAR(200) NOT NULL UNIQUE,
-    contrasena VARCHAR(255) NOT NULL,
+CREATE TABLE usuarios(
+	id_usuario INT PRIMARY KEY AUTO_INCREMENT,
+	nombre     VARCHAR(60) NOT NULL,
+	apellido   VARCHAR(200) NOT NULL,
+    email      VARCHAR(200) NOT NULL UNIQUE,
+    contrasena VARCHAR(225) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- ============================================================
--- TABLA 2: CATEGORÍAS (idéntica en TODOS los escenarios)
--- ============================================================
-CREATE TABLE categorias (
-    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL UNIQUE,
-    descripcion TEXT,
+CREATE TABLE peluches(
+	id_peluche   INT PRIMARY KEY AUTO_INCREMENT,
+    nombre       VARCHAR(60) NOT NULL,
+    descripcion  VARCHAR(250) NOT NULL,
+    donador_id   INT,
+    FOREIGN KEY (donador_id) REFERENCES usuarios(id_usuario)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    adoptador_id INT,
+    FOREIGN KEY (adoptador_id) REFERENCES usuarios(id_usuario)
+        ON DELETE CASCADE ON UPDATE CASCADE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
-
--- ============================================================
--- TABLA 3: ENTIDAD PRINCIPAL (cambia según escenario)
--- ============================================================
-CREATE TABLE entidades (
-    id_entidad INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(150) NOT NULL,
-    descripcion TEXT NOT NULL,
-    -- ↓↓↓ CAMPOS ESPECÍFICOS SEGÚN ESCENARIO ↓↓↓
-    fecha DATE,
-    precio DECIMAL(10,2),
-    stock INT,
-    -- ↑↑↑ ↑↑↑
-    categoria_id INT NOT NULL,
-    usuario_id INT NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (categoria_id) REFERENCES categorias(id_categoria),
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id_usuario) ON DELETE CASCADE
-);
-
--- Datos de prueba
-INSERT INTO categorias (nombre, descripcion) VALUES
-('General', 'Categoría por defecto'),
-('Personal', 'Cosas personales'),
-('Trabajo', 'Cosas del trabajo');

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Editar Donación' if peluche else 'Nueva Donación' }}{% endblock %}
+
+{% block content %}
+
+<div class="page-header" style="justify-content: flex-end;">
+    <div>
+        <a href="{{ url_for('peluches') }}" class="btn btn-secondary">Inicio</a>
+        <a href="{{ url_for('logout') }}" class="btn btn-secondary">Cerrar Sesión</a>
+    </div>
+</div>
+
+<h2>{{ 'Editar Donación' if peluche else 'Nueva Donación' }}</h2>
+
+<div class="form-stacked">
+
+    <form action="{{ url_for('modificar_peluche', id=peluche.id_peluche) if peluche else url_for('crear_peluche') }}"
+        method="POST">
+
+        <div class="form-inline">
+            <label>Nombre</label>
+            <input type="text" name="nombre" class="form-control"
+                value="{% if peluche %}{{ peluche.nombre }}{% elif datos %}{{ datos.nombre }}{% endif %}" required>
+        </div>
+
+        <div class="form-inline" style="align-items: flex-start;">
+            <label>Descripción</label>
+            <textarea name="descripcion" class="form-control" rows="5"
+                required>{% if peluche %}{{ peluche.descripcion }}{% elif datos %}{{ datos.descripcion }}{% endif %}</textarea>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-dark">Guardar</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

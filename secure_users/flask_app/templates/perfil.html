@@ -1,26 +1,66 @@
 {% extends "base.html" %}
-{% block title %}Mi Perfil{% endblock %}
+{% block title %}Mi Perfil ₍ᵔ.˛.ᵔ₎{% endblock %}
 
 {% block content %}
-<div class="profile-header">
-    <div class="profile-avatar">{{ usuario.nombre[0]|upper }}</div>
-    <div class="profile-info">
-        <h2>{{ usuario.nombre }} {{ usuario.apellido }}</h2>
-        <p>{{ usuario.email }}</p>
+
+<div class="perfil-card">
+
+    <div class="profile-header">
+        <div class="profile-avatar">{{ usuario.nombre[0]|upper }}</div>
+        <div class="profile-info">
+            <h2>{{ usuario.nombre }} {{ usuario.apellido }}</h2>
+            <p>{{ usuario.email }}</p>
+        </div>
+        <div class="perfil-header-actions">
+            <a href="{{ url_for('peluches') }}" class="btn btn-dark">Ir al inicio</a>
+            <a href="{{ url_for('logout') }}" class="btn btn-secondary">Cerrar Sesión</a>
+        </div>
     </div>
+
+    <div class="perfil-listas">
+
+        {# cuadro para ver peluches donados (extra) #}
+        <section class="perfil-seccion">
+            <h3>Peluches donados</h3>
+
+            {% if donados %}
+            <ul>
+                {% for donado in donados %}
+                <li>
+                    <a href="{{ url_for('detalle_peluche', id=donado.id_peluche) }}">{{ donado.nombre }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p class="text-muted">Parece que aun no tienes amigos donados.</p>
+            {% endif %}
+        </section>
+
+        {# cuadro para ver peluches adoptados (extra) #}
+        <section class="perfil-seccion">
+            <h3>Peluches adoptados</h3>
+
+            {% if adoptados %}
+            <ul>
+                {% for adoptado in adoptados %}
+                <li>
+                    <a href="{{ url_for('detalle_peluche', id=adoptado.id_peluche) }}">{{ adoptado.nombre }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p class="text-muted">Parece que aun no tienes amigos adoptados.</p>
+            {% endif %}
+        </section>
+
+    </div>
+
+    <div class="perfil-footer">
+        <a href="{{ url_for('confirmar_eliminar_usuario', id=usuario.id_usuario) }}" class="btn btn-danger">
+            Eliminar mi cuenta
+        </a>
+    </div>
+
 </div>
 
-<div class="page-header">
-    <div>
-        <h2>Mi cuenta</h2>
-        <p>Gestiona tu información personal.</p>
-    </div>
-    <a href="{{ url_for('dashboard') }}" class="btn btn-dark">Ir al inicio</a>
-</div>
-
-<div class="mt-5">
-    <a href="{{ url_for('confirmar_eliminar_usuario', id=usuario.id_usuario) }}" class="btn btn-danger">
-        Eliminar mi cuenta
-    </a>
-</div>
 {% endblock %}

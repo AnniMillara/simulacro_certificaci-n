@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Todos los Peluches{% endblock %}
+
+{% block content %}
+
+<!-- ─────────── Encabezado ─────────── -->
+<div class="page-header">
+    <h2>Bienvenid@ {{ session['nombre'] }}</h2>
+    <div>
+        <a href="{{ url_for('nuevo_peluche') }}" class="btn btn-dark">Donar Peluche</a>
+        <a href="{{ url_for('logout') }}" class="btn btn-secondary">Cerrar Sesión</a>
+    </div>
+</div>
+
+<h3>Todos los Peluches</h3>
+
+{% if peluches %}
+<div class="card-bookhub" style="padding: 8px 16px;">
+
+    {% for p in peluches %}
+    <div class="peluche-row">
+
+        <a class="p-name" href="{{ url_for('detalle_peluche', id=p.id_peluche) }}">
+            {{ p.nombre }}
+        </a>
+
+        <span class="p-donor">Donador: {{ p.donador_nombre }}</span>
+
+        <div class="p-actions">
+            <a class="link-ver" href="{{ url_for('detalle_peluche', id=p.id_peluche) }}">Ver</a>
+
+            {% if p.donador_id == session['id_usuario'] %}
+            {# Es mi peluche: Editar + Borrar #}
+            <a href="{{ url_for('editar_peluche', id=p.id_peluche) }}" class="btn btn-sm btn-warning">Editar</a>
+            <a href="{{ url_for('confirmar_eliminar_peluche', id=p.id_peluche) }}"
+                class="btn btn-sm btn-danger">Borrar</a>
+
+            {% elif p.adoptador_id %}
+            {# Ya está adoptado por otra persona #}
+            <button class="btn btn-sm btn-secondary" disabled>ADOPTADO</button>
+
+            {% else %}
+            {# Disponible y no es mío: puedo adoptarlo #}
+            <form action="{{ url_for('adoptar_peluche', id=p.id_peluche) }}" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-sm btn-dark">Adoptar</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+{% else %}
+<div class="card-bookhub text-center">
+    <p class="text-muted">Todavía no hay peluches donados.</p>
+    <a href="{{ url_for('nuevo_peluche') }}" class="btn btn-dark">Donar el primero</a>
+</div>
+{% endif %}
+
+{% endblock %}

@@ -1,10 +1,6 @@
 import pymysql.cursors
 
-
 class MySQLConnection:
-    """
-    Administra la conexión entre Python y MySQL.
-    """
 
     def __init__(self, db):
         self.db = db

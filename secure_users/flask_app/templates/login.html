@@ -1,53 +1,65 @@
 {% extends "base.html" %}
-{% block title %}Login / Registro{% endblock %}
+{% block title %}Happy 𖹭 Felpudo 𖠌 - Registro / Inicio de Sesión{% endblock %}
 
 {% block content %}
-<div class="login-header">
-    <h1>📖 App</h1>
-    <p>Comparte y descubre</p>
-</div>
 
 <div class="grid-2">
-    <div class="login-card">
-        <h3>Crear Cuenta</h3>
+
+    <div>
+        <h2>Registro</h2>
         <form action="{{ url_for('registro') }}" method="POST">
-            <div class="mb-3">
+
+            <div class="form-inline">
                 <label>Nombre</label>
                 <input type="text" name="nombre" class="form-control" required>
             </div>
-            <div class="mb-3">
+
+            <div class="form-inline">
                 <label>Apellido</label>
                 <input type="text" name="apellido" class="form-control" required>
             </div>
-            <div class="mb-3">
+
+            <div class="form-inline">
                 <label>E-mail</label>
                 <input type="email" name="email" class="form-control" required>
             </div>
-            <div class="mb-3">
+
+            <div class="form-inline">
                 <label>Contraseña</label>
                 <input type="password" name="contrasena" class="form-control" required>
             </div>
-            <div class="mb-3">
-                <label>Confirmar Contraseña</label>
+
+            <div class="form-inline">
+                <label>Conf. Contraseña</label>
                 <input type="password" name="confirmar_contrasena" class="form-control" required>
             </div>
-            <button type="submit" class="btn btn-dark w-100">Registrarse</button>
+
+            <div class="form-actions" style="display:flex; justify-content:flex-end; margin-top:10px;">
+                <button type="submit" class="btn btn-dark">Registrar</button>
+            </div>
         </form>
     </div>
 
-    <div class="login-card">
-        <h3>Iniciar Sesión</h3>
+    <div>
+        <h2>Inicio de Sesión</h2>
         <form action="{{ url_for('login') }}" method="POST">
-            <div class="mb-3">
+
+            <div class="form-inline">
                 <label>E-mail</label>
                 <input type="email" name="email" class="form-control" required>
             </div>
-            <div class="mb-3">
+
+            <div class="form-inline">
                 <label>Contraseña</label>
                 <input type="password" name="contrasena" class="form-control" required>
             </div>
-            <button type="submit" class="btn btn-dark w-100">Iniciar Sesión</button>
+
+            <div class="form-actions" style="display:flex; justify-content:flex-end; margin-top:10px;">
+                <button type="submit" class="btn btn-dark">Iniciar Sesión</button>
+            </div>
         </form>
     </div>
+
 </div>
+
 {% endblock %}
